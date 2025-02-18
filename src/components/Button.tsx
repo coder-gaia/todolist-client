@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyledButton } from './ButtonStyles';
+import { BaseButton } from './ButtonStyles'
 
 type ButtonProps  = {
   children: string
@@ -7,7 +7,7 @@ type ButtonProps  = {
 
 const Button: React.FC<ButtonProps> = ({ children }) => {
   return (
-    <StyledButton>{children}</StyledButton>
+    <BaseButton>{children}</BaseButton>
   )
 }
 
