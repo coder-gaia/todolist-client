@@ -22,6 +22,7 @@ const NewTask: React.FC<NewTaskProps> = () => {
       return;
     }
 
+    //along with the task required fields im also sending the jwt token
     try {
       const response = await axios.post(
         'http://localhost:3000/api/tasks',

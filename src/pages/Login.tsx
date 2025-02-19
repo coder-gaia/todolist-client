@@ -31,10 +31,10 @@ const Login: React.FC = () => {
 
       if (res.ok) {
         const data = await res.json();
-        // Salva o token no localStorage
+        //saves the token in localStorage
         localStorage.setItem("token", data.token);
         alert('User logged in successfully!');
-        navigate('/todolist'); // Redireciona após o login
+        navigate('/todolist');
       } else {
         alert('There was an error. Try again.');
       }
