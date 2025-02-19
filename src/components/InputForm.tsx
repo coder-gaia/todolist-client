@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormContainer, InputWrapper, StyledInput, StyledLabel } from './InputStyles';
+import {InputWrapper, StyledInput, StyledLabel } from './InputStyles';
 
 interface InputProps {
     label: string;
