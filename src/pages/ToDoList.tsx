@@ -4,6 +4,7 @@ import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import EditForm from '../components/EditForm';
+import { URL } from './Login';
 
 interface Task {
   _id: string;
@@ -24,7 +25,7 @@ const ToDoList = () => {
   const fetchTasks = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('https://to-do-list-server-4qya.onrender.com/api/tasks', {
+      const response = await axios.get(`${URL}api/tasks`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(response.data);
@@ -48,7 +49,7 @@ const ToDoList = () => {
       };
 
       await axios.put(
-        `https://to-do-list-server-4qya.onrender.com/api/tasks/${taskId}`,
+        `${URL}api/tasks/${taskId}`,
         updatedTask,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -62,7 +63,7 @@ const ToDoList = () => {
   const deleteTask = async (taskId: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`https://to-do-list-server-4qya.onrender.com/api/tasks/${taskId}`, {
+      await axios.delete(`${URL}api/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
@@ -88,7 +89,7 @@ const ToDoList = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `https://to-do-list-server-4qya.onrender.com/api/tasks/${updatedTask._id}`,
+        `${URL}api/tasks/${updatedTask._id}`,
         updatedTask,
         { headers: { Authorization: `Bearer ${token}` } }
       );

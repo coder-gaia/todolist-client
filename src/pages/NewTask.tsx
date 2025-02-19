@@ -4,6 +4,7 @@ import { ButtonGroup, Form } from '../components/NewTaskStyles';
 import { useNavigate } from 'react-router-dom';
 import { StyledInput } from '../components/InputStyles';
 import axios from 'axios';
+import { URL } from './Login';
 
 interface NewTaskProps {}
 
@@ -25,7 +26,7 @@ const NewTask: React.FC<NewTaskProps> = () => {
     //along with the task required fields im also sending the jwt token
     try {
       const response = await axios.post(
-        'https://to-do-list-server-4qya.onrender.com/api/tasks',
+        `${URL}api/tasks`,
         { title, description, completed },
         { headers: { Authorization: `Bearer ${token}` } }
       );

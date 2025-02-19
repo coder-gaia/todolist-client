@@ -3,6 +3,7 @@ import { FormContainer } from '../components/InputStyles';
 import { StyledLink, BaseButton } from '../components/ButtonStyles';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { URL } from './Login';
 
 const Signup: React.FC = () => {
   const [userName, setUserName] = useState('');
@@ -22,7 +23,7 @@ const Signup: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const res = await fetch('https://to-do-list-server-4qya.onrender.com/api/auth/signup', {
+      const res = await fetch(`${URL}api/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

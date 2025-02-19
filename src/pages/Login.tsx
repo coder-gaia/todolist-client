@@ -4,6 +4,9 @@ import InputForm from '../components/InputForm';
 import { BaseButton } from '../components/ButtonStyles';
 import { useNavigate } from 'react-router-dom';
 
+export const URL = import.meta.env.VITE_REMOTE_URL;
+
+
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +24,7 @@ const Login: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const res = await fetch('https://to-do-list-server-4qya.onrender.com/api/auth/login', {
+      const res = await fetch(`${URL}api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
