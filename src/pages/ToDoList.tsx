@@ -3,6 +3,7 @@ import { AddTaskButton, Container, SearchInput, TaskTable, FilterContainer } fro
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import EditForm from '../components/EditForm';
 
 interface Task {
   _id: string;
@@ -16,7 +17,10 @@ const ToDoList = () => {
   const [search, setSearch] = useState('');
   const [showDone, setShowDone] = useState(false);
   const [showPending, setShowPending] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [taskToEdit, setTaskToEdit] = useState<Task|null>(null);
 
+  //this functions retrieves all the user's tasks
   const fetchTasks = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -29,12 +33,14 @@ const ToDoList = () => {
     }
   };
 
+  //this is a toggle for the checkbox: done & pending
   const toggleCompleted = async (taskId: string, currentStatus: boolean) => {
     try {
       const token = localStorage.getItem('token');
       const taskToUpdate = tasks.find((task) => task._id === taskId);
       if (!taskToUpdate) return;
 
+      //i had to send the whole object because my update model requires all the fields
       const updatedTask = {
         title: taskToUpdate.title,
         description: taskToUpdate.description,
@@ -52,6 +58,7 @@ const ToDoList = () => {
     }
   };
 
+  //by the task's id, I perform the delete action
   const deleteTask = async (taskId: string) => {
     try {
       const token = localStorage.getItem('token');
@@ -64,10 +71,40 @@ const ToDoList = () => {
     }
   };
 
+  // function to open the edit modal
+  const handleEditClick = (task: Task) => {
+    setTaskToEdit(task);
+    setShowEditModal(true);
+  };
+
+  // closing the modal
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setTaskToEdit(null);
+  };
+
+  // saving all the changes made in the edit modal
+  const handleSaveEdit = async (updatedTask: Task) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(
+        `http://localhost:3000/api/tasks/${updatedTask._id}`,
+        updatedTask,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      handleCloseEditModal();
+      fetchTasks();
+    } catch (error: any) {
+      console.error('Error while updating task:', error.response?.data || error.message);
+    }
+  };
+
   useEffect(() => {
     fetchTasks();
   }, []);
 
+
+  //im filtering the tasks by their title and by the checkboxes
   const filteredTasks = tasks.filter((task) => {
     const matchesTitle = task.title.toLowerCase().includes(search.toLowerCase());
     const matchesDone = showDone ? task.completed : true;
@@ -90,7 +127,7 @@ const ToDoList = () => {
             type="checkbox"
             checked={showDone}
             onChange={() => setShowDone(!showDone)}
-          />{' '}
+          />
           Show Done
         </label>
         <label>
@@ -98,7 +135,7 @@ const ToDoList = () => {
             type="checkbox"
             checked={showPending}
             onChange={() => setShowPending(!showPending)}
-          />{' '}
+          />
           Show Pending
         </label>
       </FilterContainer>
@@ -130,7 +167,7 @@ const ToDoList = () => {
                   />
                 </td>
                 <td>
-                  <FiEdit style={{ cursor: 'pointer', marginRight: '10px' }} />
+                  <FiEdit style={{ cursor: 'pointer', marginRight: '10px' }} onClick={() => handleEditClick(task)} />
                   <FiTrash2
                     style={{ cursor: 'pointer' }}
                     onClick={() => deleteTask(task._id)}
@@ -147,6 +184,13 @@ const ToDoList = () => {
           )}
         </tbody>
       </TaskTable>
+      {showEditModal && taskToEdit && (
+        <EditForm
+          task={taskToEdit}
+          onClose={handleCloseEditModal}
+          onSave={handleSaveEdit}
+        />
+      )}
     </Container>
   );
 };

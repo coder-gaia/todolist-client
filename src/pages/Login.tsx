@@ -5,9 +5,9 @@ import { BaseButton } from '../components/ButtonStyles';
 import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -17,6 +17,8 @@ const Login: React.FC = () => {
       alert('All fields must be filled in.');
       return;
     }
+
+    setIsLoading(true);
 
     try {
       const res = await fetch('http://localhost:3000/api/auth/login', {
@@ -29,10 +31,8 @@ const Login: React.FC = () => {
 
       if (res.ok) {
         const data = await res.json();
-        
         // Salva o token no localStorage
         localStorage.setItem("token", data.token);
-
         alert('User logged in successfully!');
         navigate('/todolist'); // Redireciona após o login
       } else {
@@ -41,6 +41,8 @@ const Login: React.FC = () => {
     } catch (error) {
       console.error('Error in login: ', error);
       alert('Unexpected error. Check your connection.');
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -62,7 +64,9 @@ const Login: React.FC = () => {
           value={password} 
           onChange={(e) => setPassword(e.target.value)} 
         />
-        <BaseButton type='submit'>Login</BaseButton>
+        <BaseButton type='submit' disabled={isLoading}>
+          {isLoading ? 'Loading...' : 'Login'}
+        </BaseButton>
       </form>
     </FormContainer>
   );
