@@ -24,7 +24,7 @@ const ToDoList = () => {
   const fetchTasks = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:3000/api/tasks', {
+      const response = await axios.get('https://to-do-list-server-4qya.onrender.com/api/tasks', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(response.data);
@@ -48,7 +48,7 @@ const ToDoList = () => {
       };
 
       await axios.put(
-        `http://localhost:3000/api/tasks/${taskId}`,
+        `https://to-do-list-server-4qya.onrender.com/api/tasks/${taskId}`,
         updatedTask,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -62,7 +62,7 @@ const ToDoList = () => {
   const deleteTask = async (taskId: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:3000/api/tasks/${taskId}`, {
+      await axios.delete(`https://to-do-list-server-4qya.onrender.com/api/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
@@ -88,7 +88,7 @@ const ToDoList = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `http://localhost:3000/api/tasks/${updatedTask._id}`,
+        `https://to-do-list-server-4qya.onrender.com/api/tasks/${updatedTask._id}`,
         updatedTask,
         { headers: { Authorization: `Bearer ${token}` } }
       );

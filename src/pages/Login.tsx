@@ -21,7 +21,7 @@ const Login: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const res = await fetch('http://localhost:3000/api/auth/login', {
+      const res = await fetch('https://to-do-list-server-4qya.onrender.com/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

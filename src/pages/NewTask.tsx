@@ -25,7 +25,7 @@ const NewTask: React.FC<NewTaskProps> = () => {
     //along with the task required fields im also sending the jwt token
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/tasks',
+        'https://to-do-list-server-4qya.onrender.com/api/tasks',
         { title, description, completed },
         { headers: { Authorization: `Bearer ${token}` } }
       );
