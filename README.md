@@ -1,50 +1,22 @@
-# React + TypeScript + Vite
+# To-do List with React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a project for a challenge
 
-Currently, two official plugins are available:
+## Explaning the functionalities
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+When you enter the project: - [@vitejs/plugin-react](https://todolist-client.vercel.app/todolist)
 
-## Expanding the ESLint configuration
+- You'll be in the signup page;
+- You can wether create a new account or login in a existing one;
+- After successfully logged in you'll have a jwt token that will serve as a key to perform all the actions in the table, then you're gonna see a table.;
+- This table will show you all of your tasks, those you have finished ## done ## e and those you haven't ## pending ##
+- If the table is empty you can create a new one, the design is very intuitve to do so;
+- After you have created your very first to-do item, you can do whatever you want with it;
+- The actions with the to-do items are: creation, deletion, update and reading;
+- In the top, just below the header, there's an input searcher and a checkbox sercher;
+- The checkbox has 2 options: done & pending, you can filter your tasks by it;
+- The input itself will search the tasks by it's title, so you'll never lose track of any;
+- There you go, your To-do List.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## This project was styled using Styled-Components
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
