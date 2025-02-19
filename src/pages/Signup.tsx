@@ -49,8 +49,9 @@ const Signup: React.FC = () => {
 
         <BaseButton type="submit">Register</BaseButton>
       </form>
-
-      <p>Already have an account? <StyledLink to="/login">Login</StyledLink></p>
+      <div>
+        <h5>Already have an account? <StyledLink to="/login">Login</StyledLink></h5>
+      </div>
     </FormContainer>
   );
 };

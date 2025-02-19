@@ -20,7 +20,8 @@ const buttonStyles = css`
 
   &:hover {
     background: linear-gradient(135deg, rgb(176, 204, 234), #0056b3);
-    border: 2px solid transparent;
+    border: 2px solid #0056b3;
+    transition: all 0.5s ease-in-out;
     color: #fff;
   }
 `;
@@ -30,5 +31,8 @@ export const BaseButton = styled.button`
 `;
 
 export const StyledLink = styled(Link)`
-  ${buttonStyles}
+    width: 120px;
+    height: 48px;
+    color: #0056b3;
+    text-decoration:none;
 `;

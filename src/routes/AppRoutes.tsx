@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Signup from '../pages/Signup'
 import Login from '../pages/Login'
-import Success from '../pages/Sucess'
+import ToDoList from '../pages/ToDoList'
+import NewTask from '../pages/NewTask'
 
 const AppRoutes = () => {
   return (
@@ -9,7 +10,8 @@ const AppRoutes = () => {
       <Routes>
         <Route path='/' element={<Signup/>}/>
         <Route path='/login' element={<Login/>}/>
-        <Route path='/success' element={<Success/>}/>
+        <Route path='/todolist' element={<ToDoList/>}/>
+        <Route path='/newTask' element={<NewTask/>}/>
       </Routes>
     </BrowserRouter>
   )
