@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AddTaskButton, Container, SearchInput, TaskTable } from '../components/ToDoListStyles';
+import { AddTaskButton, Container, SearchInput, TaskTable, FilterContainer } from '../components/ToDoListStyles';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -14,59 +14,43 @@ interface Task {
 const ToDoList = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [search, setSearch] = useState('');
+  const [showDone, setShowDone] = useState(false);
+  const [showPending, setShowPending] = useState(false);
 
   const fetchTasks = async () => {
     try {
       const token = localStorage.getItem('token');
-      const params: any = {};
-  
-      if (search) {
-        if (search.toLowerCase() === 'done') params.completed = true;
-        else if (search.toLowerCase() === 'pending') params.completed = false;
-        else params.title = search;
-      }
-  
       const response = await axios.get('http://localhost:3000/api/tasks', {
         headers: { Authorization: `Bearer ${token}` },
-        params,
       });
-  
-      console.log('Fetched tasks:', response.data);
       setTasks(response.data);
     } catch (error) {
       console.error('Error while getting task(s):', error);
     }
   };
-  
 
   const toggleCompleted = async (taskId: string, currentStatus: boolean) => {
     try {
       const token = localStorage.getItem('token');
       const taskToUpdate = tasks.find((task) => task._id === taskId);
-  
       if (!taskToUpdate) return;
-  
+
       const updatedTask = {
         title: taskToUpdate.title,
         description: taskToUpdate.description,
         completed: !currentStatus,
       };
-  
-      console.log('Payload sent:', updatedTask);
-  
-      const response = await axios.put(
+
+      await axios.put(
         `http://localhost:3000/api/tasks/${taskId}`,
         updatedTask,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
-      console.log('Updated task:', response.data);
       fetchTasks();
     } catch (error: any) {
       console.error('Error while updating task status:', error.response?.data || error.message);
     }
   };
-  
 
   const deleteTask = async (taskId: string) => {
     try {
@@ -74,7 +58,6 @@ const ToDoList = () => {
       await axios.delete(`http://localhost:3000/api/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(`Task ${taskId} deleted`);
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
     } catch (error) {
       console.error('Error while deleting task:', error);
@@ -83,22 +66,43 @@ const ToDoList = () => {
 
   useEffect(() => {
     fetchTasks();
-  }, [search]);
+  }, []);
 
-  const filteredTasks = tasks.filter(
-    (task) =>
-      task.title.toLowerCase().includes(search.toLowerCase()) ||
-      (task.completed ? 'done' : 'pending').includes(search.toLowerCase())
-  );
+  const filteredTasks = tasks.filter((task) => {
+    const matchesTitle = task.title.toLowerCase().includes(search.toLowerCase());
+    const matchesDone = showDone ? task.completed : true;
+    const matchesPending = showPending ? !task.completed : true;
+    return matchesTitle && matchesDone && matchesPending;
+  });
 
   return (
     <Container>
       <SearchInput
         type="text"
-        placeholder="Search by title or status..."
+        placeholder="Search by title..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
+
+      <FilterContainer>
+        <label>
+          <input
+            type="checkbox"
+            checked={showDone}
+            onChange={() => setShowDone(!showDone)}
+          />{' '}
+          Show Done
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={showPending}
+            onChange={() => setShowPending(!showPending)}
+          />{' '}
+          Show Pending
+        </label>
+      </FilterContainer>
+
       <AddTaskButton as={Link} to="/newTask">
         Add new task
       </AddTaskButton>
