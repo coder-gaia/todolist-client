@@ -4,7 +4,7 @@ This is a project for a challenge
 
 ## Explaning the functionalities
 
-When you enter the project: - (https://todolist-client.vercel.app/todolist)
+When you enter the project: - (https://todolist-client.vercel.app)
 
 - You'll be in the signup page;
 - You can wether create a new account or login in a existing one;
